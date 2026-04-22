@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://cd4qhg73cgouu"]
+
+[ext_resource type="Script" uid="uid://cs0isvekmmf37" path="res://Scenes/main.gd" id="1_8gbba"]
+[ext_resource type="Shader" uid="uid://bylnwph3bmyx2" path="res://Shaders/simulation.gdshader" id="1_jjgbg"]
+[ext_resource type="Shader" uid="uid://bk7idrqhf81p6" path="res://Scenes/main.tres" id="2_bo1nx"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_8gbba"]
+sky_material = SubResource("ProceduralSkyMaterial_bo1nx")
+
+[sub_resource type="Environment" id="Environment_jjvhh"]
+background_mode = 2
+sky = SubResource("Sky_8gbba")
+tonemap_mode = 2
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_8gbba"]
+viewport_path = NodePath("Collision")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jjgbg"]
+viewport_path = NodePath("Simulation")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bo1nx"]
+resource_local_to_scene = true
+shader = ExtResource("1_jjgbg")
+shader_parameter/sim_tex = SubResource("ViewportTexture_jjgbg")
+shader_parameter/col_tex = SubResource("ViewportTexture_8gbba")
+shader_parameter/phase = 0.18
+shader_parameter/attenuation = 0.995
+shader_parameter/deltaUV = 2.4
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8gbba"]
+size = Vector2(12, 12)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_bo1nx"]
+viewport_path = NodePath("Simulation")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_bo1nx")
+shader_parameter/simulation = SubResource("ViewportTexture_bo1nx")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kry3j"]
+material = SubResource("ShaderMaterial_jjvhh")
+size = Vector2(12, 12)
+subdivide_width = 500
+subdivide_depth = 500
+
+[sub_resource type="Environment" id="Environment_bo1nx"]
+background_mode = 1
+
+[sub_resource type="SphereMesh" id="SphereMesh_bo1nx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gbba"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jjvhh"]
+material = SubResource("StandardMaterial3D_8gbba")
+
+[sub_resource type="Animation" id="Animation_bo1nx"]
+resource_name = "Bounce"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 2, 0), Vector3(0, -0.5, 0), Vector3(0, 2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8gbba"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jjvhh"]
+_data = {
+&"Bounce": SubResource("Animation_bo1nx"),
+&"RESET": SubResource("Animation_8gbba")
+}
+
+[node name="Main" type="Node3D" unique_id=1679696770]
+script = ExtResource("1_8gbba")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1176634357]
+environment = SubResource("Environment_jjvhh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2065129521]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Simulation" type="SubViewport" parent="." unique_id=2067219822]
+render_target_clear_mode = 2
+render_target_update_mode = 4
+
+[node name="ColorRect" type="ColorRect" parent="Simulation" unique_id=962919179]
+material = SubResource("ShaderMaterial_bo1nx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Walls" type="CSGCombiner3D" parent="." unique_id=1560416748]
+transform = Transform3D(1.155, 0, 0, 0, 2.21, 0, 0, 0, 1.155, 0, 0, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Walls" unique_id=276321931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 11, 5, 0, 0)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Walls" unique_id=792436616]
+transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Walls" unique_id=1064983377]
+transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Walls" unique_id=2069713595]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 11, -5, 0, 0)
+
+[node name="Pool Floor" type="MeshInstance3D" parent="." unique_id=225796586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("PlaneMesh_8gbba")
+
+[node name="Water" type="MeshInstance3D" parent="." unique_id=7792882]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("PlaneMesh_kry3j")
+
+[node name="Collision" type="SubViewport" parent="." unique_id=1037365789]
+
+[node name="WaterCam" type="Camera3D" parent="Collision" unique_id=65920496]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, -5, 0)
+cull_mask = 524288
+environment = SubResource("Environment_bo1nx")
+projection = 1
+current = true
+size = 11.1
+far = 5.0
+
+[node name="Ball" type="Node3D" parent="." unique_id=1434742802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Ball" unique_id=1051249083]
+mesh = SubResource("SphereMesh_bo1nx")
+
+[node name="Water Collision" type="MeshInstance3D" parent="Ball" unique_id=1067320806]
+layers = 524288
+mesh = SubResource("SphereMesh_jjvhh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Ball" unique_id=136745295]
+libraries/ = SubResource("AnimationLibrary_jjvhh")
+autoplay = &"Bounce"
+speed_scale = 1.5
+
+[node name="Main Camera" type="Camera3D" parent="." unique_id=1989192133]
+transform = Transform3D(0.64278764, -0.619743, 0.4502696, 0, 0.58778524, 0.809017, -0.76604444, -0.52002615, 0.3778211, 4, 6, 4)
+cull_mask = 524287
+fov = 90.0
