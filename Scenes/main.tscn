@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cs0isvekmmf37" path="res://Scenes/main.gd" id="1_8gbba"]
 [ext_resource type="Shader" uid="uid://bylnwph3bmyx2" path="res://Shaders/simulation.gdshader" id="1_jjgbg"]
 [ext_resource type="Shader" uid="uid://bk7idrqhf81p6" path="res://Scenes/main.tres" id="2_bo1nx"]
+[ext_resource type="Script" uid="uid://c55lok0ysoi0u" path="res://scripts/camera_controller.gd" id="4_jjvhh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -175,3 +176,4 @@ speed_scale = 1.5
 transform = Transform3D(0.64278764, -0.619743, 0.4502696, 0, 0.58778524, 0.809017, -0.76604444, -0.52002615, 0.3778211, 4, 6, 4)
 cull_mask = 524287
 fov = 90.0
+script = ExtResource("4_jjvhh")
