@@ -44,6 +44,10 @@ render_priority = 0
 shader = ExtResource("2_bo1nx")
 shader_parameter/simulation = SubResource("ViewportTexture_bo1nx")
 shader_parameter/amplitude = 0.5
+shader_parameter/refraction_strength = 1.0
+shader_parameter/deep_water = Color(0, 0, 1, 1)
+shader_parameter/shallow_water = Color(0, 1, 1, 1)
+shader_parameter/murkiness = 0.3
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_kry3j"]
 material = SubResource("ShaderMaterial_jjvhh")
@@ -124,7 +128,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Walls" type="CSGCombiner3D" parent="." unique_id=1560416748]
-transform = Transform3D(1.155, 0, 0, 0, 2.21, 0, 0, 0, 1.155, 0, 0, 0)
+transform = Transform3D(1.155, 0, 0, 0, 3, 0, 0, 0, 1.155, 0, -1, 0)
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Walls" unique_id=276321931]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 11, 5, 0, 0)
@@ -139,11 +143,10 @@ transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 11, -5, 0, 0)
 
 [node name="Pool Floor" type="MeshInstance3D" parent="." unique_id=225796586]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 mesh = SubResource("PlaneMesh_8gbba")
 
 [node name="Water" type="MeshInstance3D" parent="." unique_id=7792882]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("PlaneMesh_kry3j")
 
 [node name="Collision" type="SubViewport" parent="." unique_id=1037365789]
