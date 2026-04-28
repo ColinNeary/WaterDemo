@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://bylnwph3bmyx2" path="res://Shaders/simulation.gdshader" id="1_jjgbg"]
 [ext_resource type="Shader" uid="uid://bk7idrqhf81p6" path="res://Scenes/main.tres" id="2_bo1nx"]
 [ext_resource type="Script" uid="uid://c55lok0ysoi0u" path="res://scripts/camera_controller.gd" id="4_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://c6v64sx1tdk34" path="res://Scenes/Boat/Boat.tscn" id="5_kry3j"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -160,6 +161,12 @@ current = true
 size = 11.1
 far = 5.0
 
+[node name="Main Camera" type="Camera3D" parent="." unique_id=1989192133]
+transform = Transform3D(0.64278764, -0.619743, 0.4502696, 0, 0.58778524, 0.809017, -0.76604444, -0.52002615, 0.3778211, 4, 6, 4)
+cull_mask = 524287
+fov = 90.0
+script = ExtResource("4_jjvhh")
+
 [node name="Ball" type="Node3D" parent="." unique_id=1434742802]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
@@ -175,8 +182,7 @@ libraries/ = SubResource("AnimationLibrary_jjvhh")
 autoplay = &"Bounce"
 speed_scale = 1.5
 
-[node name="Main Camera" type="Camera3D" parent="." unique_id=1989192133]
-transform = Transform3D(0.64278764, -0.619743, 0.4502696, 0, 0.58778524, 0.809017, -0.76604444, -0.52002615, 0.3778211, 4, 6, 4)
-cull_mask = 524287
-fov = 90.0
-script = ExtResource("4_jjvhh")
+[node name="Boat" parent="." unique_id=1846534761 instance=ExtResource("5_kry3j")]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 3.5510316, 0, 0)
+float_force = 1.3
+water_angular_drag = 0.1
