@@ -4,6 +4,7 @@
 [ext_resource type="Shader" uid="uid://bylnwph3bmyx2" path="res://Shaders/simulation.gdshader" id="1_jjgbg"]
 [ext_resource type="Shader" uid="uid://bk7idrqhf81p6" path="res://Scenes/main.tres" id="2_bo1nx"]
 [ext_resource type="Script" uid="uid://c55lok0ysoi0u" path="res://scripts/camera_controller.gd" id="4_jjvhh"]
+[ext_resource type="Script" path="res://scripts/ball_controller.gd" id="5_ball"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bo1nx"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -67,6 +68,12 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="SphereMesh" id="SphereMesh_jjvhh"]
 material = SubResource("StandardMaterial3D_8gbba")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_ball"]
+radius = 0.5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_floor"]
+size = Vector3(12, 0.1, 12)
+
 [sub_resource type="Animation" id="Animation_bo1nx"]
 resource_name = "Bounce"
 length = 2.0
@@ -129,6 +136,7 @@ grow_vertical = 2
 
 [node name="Walls" type="CSGCombiner3D" parent="." unique_id=1560416748]
 transform = Transform3D(1.155, 0, 0, 0, 3, 0, 0, 0, 1.155, 0, -1, 0)
+use_collision = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Walls" unique_id=276321931]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 11, 5, 0, 0)
@@ -142,9 +150,15 @@ transform = Transform3D(11, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
 [node name="CSGBox3D2" type="CSGBox3D" parent="Walls" unique_id=2069713595]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 11, -5, 0, 0)
 
-[node name="Pool Floor" type="MeshInstance3D" parent="." unique_id=225796586]
+[node name="Pool Floor" type="StaticBody3D" parent="." unique_id=225796586]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pool Floor"]
 mesh = SubResource("PlaneMesh_8gbba")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pool Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_floor")
 
 [node name="Water" type="MeshInstance3D" parent="." unique_id=7792882]
 mesh = SubResource("PlaneMesh_kry3j")
@@ -160,8 +174,14 @@ current = true
 size = 11.1
 far = 5.0
 
-[node name="Ball" type="Node3D" parent="." unique_id=1434742802]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+[node name="Ball" type="RigidBody3D" parent="." unique_id=1434742802]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mass = 1.0
+linear_damp = 0.5
+script = ExtResource("5_ball")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("SphereShape3D_ball")
 
 [node name="Mesh" type="MeshInstance3D" parent="Ball" unique_id=1051249083]
 mesh = SubResource("SphereMesh_bo1nx")
@@ -172,7 +192,6 @@ mesh = SubResource("SphereMesh_jjvhh")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Ball" unique_id=136745295]
 libraries/ = SubResource("AnimationLibrary_jjvhh")
-autoplay = &"Bounce"
 speed_scale = 1.5
 
 [node name="Main Camera" type="Camera3D" parent="." unique_id=1989192133]
