@@ -44,11 +44,22 @@ source = 1
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(1, 1, 1), 2, Vector3(0.5, 0.5, 0.5)]
 op_type = 3
 
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_bqqry"]
+source = 5
+
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_iv8hc"]
 constant = 0.8
 
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_bqqry"]
+constant = 0.9
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_uolrr"]
+input_name = "uv"
+
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_skewb"]
 parameter_name = "simulation"
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_ju366"]
 
 [sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_bqqry"]
 size = Vector2(860, 460)
@@ -97,7 +108,7 @@ operator = 2
 input_name = "normal"
 
 [resource]
-nodes/vertex/0/position = Vector2(1133.3334, 306.66666)
+nodes/vertex/0/position = Vector2(1120, 80)
 nodes/vertex/2/node = SubResource("VisualShaderNodeInput_bqqry")
 nodes/vertex/2/position = Vector2(-386.66666, 186.66667)
 nodes/vertex/4/node = SubResource("VisualShaderNodeTexture_uolrr")
@@ -116,10 +127,16 @@ nodes/vertex/11/node = SubResource("VisualShaderNodeInput_iv8hc")
 nodes/vertex/11/position = Vector2(506.66666, 106.666664)
 nodes/vertex/12/node = SubResource("VisualShaderNodeParameterRef_bqqry")
 nodes/vertex/12/position = Vector2(-234.07677, 472.93057)
-nodes/vertex/connections = PackedInt32Array(2, 0, 4, 0, 6, 0, 7, 1, 4, 1, 7, 0, 7, 0, 8, 1, 9, 0, 8, 0, 8, 0, 10, 1, 11, 0, 10, 0, 10, 0, 0, 0, 12, 0, 4, 2)
+nodes/vertex/connections = PackedInt32Array(2, 0, 4, 0, 6, 0, 7, 1, 4, 1, 7, 0, 7, 0, 8, 1, 9, 0, 8, 0, 8, 0, 10, 1, 11, 0, 10, 0, 10, 0, 0, 0, 12, 0, 4, 2, 9, 0, 0, 1)
 nodes/fragment/0/position = Vector2(533.3333, 333.33334)
+nodes/fragment/2/node = SubResource("VisualShaderNodeTexture_bqqry")
+nodes/fragment/2/position = Vector2(-200, 320)
+nodes/fragment/3/node = SubResource("VisualShaderNodeInput_uolrr")
+nodes/fragment/3/position = Vector2(-586.6667, 293.33334)
 nodes/fragment/4/node = SubResource("VisualShaderNodeTexture2DParameter_skewb")
 nodes/fragment/4/position = Vector2(-1680, -240)
+nodes/fragment/5/node = SubResource("VisualShaderNodeVectorCompose_ju366")
+nodes/fragment/5/position = Vector2(26.666666, 320)
 nodes/fragment/6/node = SubResource("VisualShaderNodeExpression_bqqry")
 nodes/fragment/6/position = Vector2(-986.6667, 813.3333)
 nodes/fragment/6/size = Vector2(860, 460)
@@ -166,4 +183,6 @@ nodes/fragment/19/node = SubResource("VisualShaderNodeMix_bqqry")
 nodes/fragment/19/position = Vector2(266.66666, 80)
 nodes/fragment/20/node = SubResource("VisualShaderNodeFloatConstant_iv8hc")
 nodes/fragment/20/position = Vector2(13.333333, 26.666666)
-nodes/fragment/connections = PackedInt32Array(7, 0, 6, 0, 6, 0, 8, 0, 8, 0, 0, 1, 9, 0, 6, 1, 10, 0, 12, 0, 11, 0, 12, 1, 6, 0, 12, 2, 4, 0, 13, 0, 13, 0, 0, 8, 13, 0, 15, 0, 14, 0, 15, 1, 15, 0, 16, 1, 17, 0, 16, 0, 16, 0, 18, 0, 20, 0, 19, 2, 19, 0, 0, 0, 12, 0, 19, 1, 18, 0, 19, 0)
+nodes/fragment/22/node = SubResource("VisualShaderNodeFloatConstant_bqqry")
+nodes/fragment/22/position = Vector2(160, 840)
+nodes/fragment/connections = PackedInt32Array(3, 0, 2, 0, 4, 0, 2, 2, 2, 0, 5, 0, 5, 0, 0, 0, 7, 0, 6, 0, 6, 0, 8, 0, 8, 0, 0, 1, 9, 0, 6, 1, 10, 0, 12, 0, 11, 0, 12, 1, 6, 0, 12, 2, 4, 0, 13, 0, 13, 0, 0, 8, 13, 0, 15, 0, 14, 0, 15, 1, 15, 0, 16, 1, 17, 0, 16, 0, 16, 0, 18, 0, 20, 0, 19, 2, 19, 0, 0, 0, 12, 0, 19, 1, 18, 0, 19, 0, 22, 0, 0, 4)
