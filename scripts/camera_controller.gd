@@ -45,7 +45,7 @@ func _input(event: InputEvent) -> void:
 			
 	if event is InputEventMouseMotion and _dragging:
 		_yaw -= event.relative.x * orbit_speed
-		_pitch -= event.relative.y * orbit_speed
+		_pitch += event.relative.y * orbit_speed
 		_pitch = clamp(_pitch, min_pitch, max_pitch)
 		_update_transform()
 			
