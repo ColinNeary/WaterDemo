@@ -6,11 +6,13 @@ uniform sampler2D col_tex;
 uniform float phase = 0.2;
 uniform float attenuation = 0.999;
 uniform float deltaUV = 3.0;
+uniform float wave_time = 0;
 
 // Wave controls (expose these to Inspector / UI sliders)
 uniform float wave_amplitude : hint_range(0.0, 0.5) = 0.08;
 uniform float wave_frequency : hint_range(1.0, 20.0) = 6.0;
 uniform float wave_speed     : hint_range(0.0, 5.0)  = 1.2;
+
 
 void vertex() {}
 
@@ -30,8 +32,8 @@ void fragment() {
 
     // --- Sine wave injection ---
     // Two waves at different angles so it looks like open water, not a pool
-    float wave1 = sin(UV.x * wave_frequency + TIME * wave_speed) * wave_amplitude;
-    float wave2 = sin((UV.x * 0.7 + UV.y * 0.7) * wave_frequency * 0.8 + TIME * wave_speed * 0.9) * wave_amplitude * 0.6;
+    float wave1 = sin(UV.x * wave_frequency + wave_time * wave_speed) * wave_amplitude;
+    float wave2 = sin((UV.x * 0.7 + UV.y * 0.7) * wave_frequency * 0.8 + wave_time * wave_speed * 0.9) * wave_amplitude * 0.6;
     p += wave1 + wave2;
 
     // --- Collision detection ---

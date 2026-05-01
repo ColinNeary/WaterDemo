@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://bc10pe7dc01y8"]
+
+[ext_resource type="Script" uid="uid://dsr3wy4b7oohs" path="res://Scenes/Ball/ball_controller.gd" id="1_rcvud"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ball"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_bo1nx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gbba"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jjvhh"]
+material = SubResource("StandardMaterial3D_8gbba")
+
+[sub_resource type="Animation" id="Animation_bo1nx"]
+resource_name = "Bounce"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 2, 0), Vector3(0, 0, 0), Vector3(0, 2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_8gbba"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.5, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jjvhh"]
+_data = {
+&"Bounce": SubResource("Animation_bo1nx"),
+&"RESET": SubResource("Animation_8gbba")
+}
+
+[node name="Ball" type="RigidBody3D" unique_id=998736285]
+linear_damp = 0.5
+script = ExtResource("1_rcvud")
+float_force = 3.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2061313348]
+shape = SubResource("SphereShape3D_ball")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=1231102183]
+mesh = SubResource("SphereMesh_bo1nx")
+
+[node name="Water Collision" type="MeshInstance3D" parent="." unique_id=1184615686]
+layers = 524288
+mesh = SubResource("SphereMesh_jjvhh")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=757337623]
+libraries/ = SubResource("AnimationLibrary_jjvhh")
+speed_scale = 1.5

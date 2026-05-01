@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://b0ks3g52ctwxv"]
+
+[ext_resource type="Shader" uid="uid://bk7idrqhf81p6" path="res://Scenes/main.tres" id="1_7eg1t"]
+[ext_resource type="Script" uid="uid://bj3mc3o4uwnpa" path="res://Scenes/Water/water.gd" id="2_588kq"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_bo1nx"]
+viewport_path = NodePath("Simulation")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jjvhh"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_7eg1t")
+shader_parameter/simulation = SubResource("ViewportTexture_bo1nx")
+shader_parameter/amplitude = 0.5
+shader_parameter/refraction_strength = 1.0
+shader_parameter/deep_water = Color(0, 0, 1, 1)
+shader_parameter/shallow_water = Color(0, 1, 1, 1)
+shader_parameter/murkiness = 0.3
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kry3j"]
+material = SubResource("ShaderMaterial_jjvhh")
+size = Vector2(12, 12)
+subdivide_width = 500
+subdivide_depth = 500
+
+[node name="Water" type="MeshInstance3D" unique_id=259094726]
+mesh = SubResource("PlaneMesh_kry3j")
+script = ExtResource("2_588kq")
