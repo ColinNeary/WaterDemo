@@ -50,6 +50,11 @@ constant = 0.8
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_bqqry"]
 constant = 0.9
 
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_uolrr"]
+constant = 0.05
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_skewb"]
+
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_skewb"]
 parameter_name = "simulation"
 
@@ -171,4 +176,8 @@ nodes/fragment/20/node = SubResource("VisualShaderNodeFloatConstant_iv8hc")
 nodes/fragment/20/position = Vector2(13.333333, 26.666666)
 nodes/fragment/22/node = SubResource("VisualShaderNodeFloatConstant_bqqry")
 nodes/fragment/22/position = Vector2(160, 840)
-nodes/fragment/connections = PackedInt32Array(7, 0, 6, 0, 6, 0, 8, 0, 8, 0, 0, 1, 9, 0, 6, 1, 10, 0, 12, 0, 11, 0, 12, 1, 6, 0, 12, 2, 4, 0, 13, 0, 13, 0, 0, 8, 13, 0, 15, 0, 14, 0, 15, 1, 15, 0, 16, 1, 17, 0, 16, 0, 16, 0, 18, 0, 20, 0, 19, 2, 19, 0, 0, 0, 12, 0, 19, 1, 18, 0, 19, 0, 22, 0, 0, 4)
+nodes/fragment/23/node = SubResource("VisualShaderNodeFloatConstant_uolrr")
+nodes/fragment/23/position = Vector2(40, 520)
+nodes/fragment/24/node = SubResource("VisualShaderNodeFloatConstant_skewb")
+nodes/fragment/24/position = Vector2(-100, 600)
+nodes/fragment/connections = PackedInt32Array(7, 0, 6, 0, 6, 0, 8, 0, 8, 0, 0, 1, 9, 0, 6, 1, 10, 0, 12, 0, 11, 0, 12, 1, 6, 0, 12, 2, 4, 0, 13, 0, 13, 0, 0, 8, 13, 0, 15, 0, 14, 0, 15, 1, 15, 0, 16, 1, 17, 0, 16, 0, 16, 0, 18, 0, 20, 0, 19, 2, 19, 0, 0, 0, 12, 0, 19, 1, 18, 0, 19, 0, 22, 0, 0, 4, 23, 0, 0, 3, 24, 0, 0, 2)
