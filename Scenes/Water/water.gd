@@ -22,8 +22,7 @@ func _process(delta):
 	sim_image = sim_viewport.get_texture().get_image()
 
 # Takes in a 3D world position and outputs the water level at that coordinate
-# Attempts to copy the existing sine wave injection code in simulate.gdshader
-# TODO: Not working as intended
+# Fetches the displacement directly from the simulation texture
 func get_height(world_position: Vector3) -> float:
 	if not sim_image:
 		return global_position.y
@@ -36,7 +35,7 @@ func get_height(world_position: Vector3) -> float:
 	var pixel_x = int(uv_x * (sim_image.get_width() - 1))
 	var pixel_y = int(uv_z * (sim_image.get_height() - 1))
 	
-	# Read the Red channel (which is 'p' in simulation.gdshader)
+	# Read the Red channel
 	var pixel_color = sim_image.get_pixel(pixel_x, pixel_y)
 	var displacement = pixel_color.r * mesh_amplitude
 	
