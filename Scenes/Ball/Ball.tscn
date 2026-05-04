@@ -52,6 +52,7 @@ _data = {
 }
 
 [node name="Ball" type="RigidBody3D" unique_id=998736285]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 linear_damp = 0.5
 script = ExtResource("1_rcvud")
 float_force = 3.0
