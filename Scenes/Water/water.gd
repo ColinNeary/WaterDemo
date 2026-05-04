@@ -21,16 +21,15 @@ func _process(delta):
 	time += delta
 	material.set_shader_parameter("wave_time", time)
 
-# Takes in a 3D world position and outputs the water level at that coordinate
-# Attempts to copy the existing sine wave injection code in simulate.gdshader
-# TODO: Not working as intended
+const MESH_SIZE := 12.0
+
+# Returns the water surface Y at a given world XZ position.
+# Mirrors the sine wave injection in simulation.gdshader exactly.
 func get_height(world_position: Vector3) -> float:
-	# Convert world position to UV-like coordinates 
-	var uv_x = wrapf(world_position.x + time * wave_speed, 0, 1)
-	var uv_y = wrapf(world_position.z + time * wave_speed, 0, 1)
-	
-	
-	var wave1 = sin(uv_x * wave_frequency + time * wave_speed) * wave_amplitude
-	var wave2 = sin((uv_x * 0.7 + uv_y * 0.7) * wave_frequency * 0.8 + time * wave_speed * 0.9) * wave_amplitude * 0.6
-	
+	var uv_x := world_position.x / MESH_SIZE + 0.5
+	var uv_y := world_position.z / MESH_SIZE + 0.5
+
+	var wave1 := sin(uv_x * wave_frequency + time * wave_speed) * wave_amplitude
+	var wave2 := sin((uv_x * 0.7 + uv_y * 0.7) * wave_frequency * 0.8 + time * wave_speed * 0.9) * wave_amplitude * 0.6
+
 	return global_position.y + wave1 + wave2

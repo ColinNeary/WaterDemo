@@ -1,22 +1,31 @@
 extends Node3D
 
+var _underwater_mat: ShaderMaterial
+
 func _ready():
-	# Step 1: Remove the water_surface.gdshader override so the original
-	# VisualShader (main.tres) on the PlaneMesh is used instead
-	$Water.set_surface_override_material(0, null)
-	
-	# Step 2: Get the SubViewport output textures
-	var sim_tex = $Simulation.get_texture()  # wave height field output
-	var col_tex = $Collision.get_texture()   # ball position for collision
-	
-	# Step 3: Wire the simulation shader feedback loop
-	# sim_tex feeds back into itself (previous frame → current frame)
-	# col_tex tells the shader where the ball is touching water
+	var sim_tex = $Simulation.get_texture()
+	var col_tex = $Collision.get_texture()
+
+	# Wire simulation feedback loop
 	var sim_mat = $Simulation/ColorRect.material as ShaderMaterial
 	sim_mat.set_shader_parameter("sim_tex", sim_tex)
 	sim_mat.set_shader_parameter("col_tex", col_tex)
-	
-	# Step 4: Pass the simulation output to the water surface VisualShader
-	# This uses the original main.tres shader (inside the PlaneMesh material)
+
+	# Use the existing main.tres material — simulation is already wired in Water.tscn
+	# Re-affirm here in case the viewport path needs a runtime push
 	var water_mat = $Water.mesh.surface_get_material(0) as ShaderMaterial
-	water_mat.set_shader_parameter("simulation", sim_tex)
+	if water_mat:
+		water_mat.set_shader_parameter("simulation", sim_tex)
+
+	# PostProcess underwater effect (optional — safe if node missing)
+	var effect = get_node_or_null("PostProcess/UnderwaterEffect")
+	if effect != null:
+		effect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		_underwater_mat = effect.material
+
+func _process(_delta):
+	if _underwater_mat == null:
+		return
+	var cam = get_node("Main Camera")
+	var intensity = clamp(($Water.global_position.y - cam.global_position.y) / 2.0, 0.0, 1.0)
+	_underwater_mat.set_shader_parameter("intensity", intensity)
